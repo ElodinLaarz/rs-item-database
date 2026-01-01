@@ -1,0 +1,44 @@
+# Wails / Build Artifacts
+build/bin/
+frontend/dist/
+wails.log
+
+# Dependencies
+node_modules/
+frontend/node_modules/
+frontend/wailsjs/
+
+# Database / Local Cache
+items.db/
+test-items.db/
+*.db
+*.dat
+
+# Go
+# (We keep go.sum as it's standard practice for reproducible builds)
+bin/
+rs-item-database
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# IDEs / Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Environment / Secrets
+.env
+.env.local
+.env.*.local
+
+# Project Specific
+GEMINI.md
+.best-practices/*

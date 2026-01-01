@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package item;
+
+option go_package = "github.com/elodin/rs-item-database/pb";
+
+message Item {
+    int32 id = 1;
+    string name = 2;
+    string description = 3;
+    string type = 4;
+    string icon = 5;
+    string icon_large = 6;
+    
+    bool members = 7;
+
+    int64 current_price = 8; 
+    string current_trend = 9;
+
+    int64 today_price_change = 10; 
+    string today_trend = 11;
+}
