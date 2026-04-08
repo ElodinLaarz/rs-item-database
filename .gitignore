@@ -42,3 +42,4 @@ Thumbs.db
 # Project Specific
 GEMINI.md
 .best-practices/*
+.aider*

@@ -79,7 +79,12 @@ function App() {
                     <div key={item.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', background: 'white', padding: '15px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
                         <img src={item.icon} alt={item.name} style={{ marginRight: '20px', width: '40px', height: '40px' }} />
                         <div style={{ flex: 1 }}>
-                            <div style={{ fontWeight: 'bold', fontSize: '1.2em' }}>{item.name}</div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                                <div style={{ fontWeight: 'bold', fontSize: '1.2em' }}>{item.name}</div>
+                                <span style={{ fontSize: '0.75em', background: '#e9ecef', color: '#495057', padding: '2px 8px', borderRadius: '12px', border: '1px solid #dee2e6', textTransform: 'capitalize' }}>
+                                    {item.type}
+                                </span>
+                            </div>
                             <div style={{ color: '#555', fontSize: '0.9em' }}>{item.description}</div>
                         </div>
                         <div style={{ textAlign: 'right' }}>
