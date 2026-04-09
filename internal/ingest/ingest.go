@@ -46,7 +46,7 @@ func Transform(jsonData []byte) (*pb.Item, error) {
 	todayChange := parsePrice(item.Today.Price)
 
 	// Ensure item has a category
-	itemType := item.Type
+	itemType := strings.TrimSpace(item.Type)
 	if itemType == "" {
 		itemType = "Miscellaneous"
 	}
