@@ -24,7 +24,7 @@ function App() {
     const handleSearch = useCallback((q: string) => {
         setQuery(q);
         if (q.length > 0) {
-            Search(q).then((res: any) => {
+            Search(q).then((res) => {
                  setResults(res || []);
             });
         } else {
@@ -39,7 +39,7 @@ function App() {
             setStatus("Invalid ID");
             return;
         }
-        IngestItem(id).then((msg) => {
+        IngestItem(id).then((msg: string) => {
             setStatus(msg);
             // Re-search if query is active
             if (query) handleSearch(query);
