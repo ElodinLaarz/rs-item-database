@@ -1,30 +1,17 @@
 import { useState, useCallback } from 'react';
 import { Search, IngestItem } from "../wailsjs/go/main/App";
-
-interface Item {
-    id: number;
-    name: string;
-    description: string;
-    type: string;
-    icon: string;
-    icon_large: string;
-    members: boolean;
-    current_price: number;
-    current_trend: string;
-    today_price_change: number;
-    today_trend: string;
-}
+import { pb } from "../wailsjs/go/models";
 
 function App() {
     const [query, setQuery] = useState("");
-    const [results, setResults] = useState<Item[]>([]);
+    const [results, setResults] = useState<pb.Item[]>([]);
     const [ingestId, setIngestId] = useState("4151");
     const [status, setStatus] = useState("");
 
     const handleSearch = useCallback((q: string) => {
         setQuery(q);
         if (q.length > 0) {
-            Search(q).then((res: any) => {
+            Search(q).then((res) => {
                  setResults(res || []);
             });
         } else {
@@ -39,7 +26,7 @@ function App() {
             setStatus("Invalid ID");
             return;
         }
-        IngestItem(id).then((msg) => {
+        IngestItem(id).then((msg: string) => {
             setStatus(msg);
             // Re-search if query is active
             if (query) handleSearch(query);
@@ -76,16 +63,23 @@ function App() {
 
             <div className="results" style={{ marginTop: '20px', textAlign: 'left' }}>
                 {results.map((item) => (
-                    <div key={item.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', background: 'white', padding: '15px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-                        <img src={item.icon} alt={item.name} style={{ marginRight: '20px', width: '40px', height: '40px' }} />
+                    <div key={item.id ?? 0} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', background: 'white', padding: '15px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
+                        <img src={item.icon ?? ''} alt={item.name ?? ''} style={{ marginRight: '20px', width: '40px', height: '40px' }} />
                         <div style={{ flex: 1 }}>
-                            <div style={{ fontWeight: 'bold', fontSize: '1.2em' }}>{item.name}</div>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                                <div style={{ fontWeight: 'bold', fontSize: '1.2em' }}>{item.name}</div>
+                                {item.type && item.type.trim() && (
+                                    <span style={{ fontSize: '0.75em', background: '#e9ecef', color: '#495057', padding: '2px 8px', borderRadius: '12px', border: '1px solid #dee2e6', textTransform: 'capitalize' }}>
+                                        {item.type.trim()}
+                                    </span>
+                                )}
+                            </div>
                             <div style={{ color: '#555', fontSize: '0.9em' }}>{item.description}</div>
                         </div>
                         <div style={{ textAlign: 'right' }}>
-                            <div style={{ color: '#007bff', fontWeight: 'bold' }}>{item.current_price.toLocaleString()} gp</div>
-                            <div style={{ fontSize: '0.8em', color: item.today_price_change >= 0 ? 'green' : 'red' }}>
-                                {item.today_price_change > 0 ? '+' : ''}{item.today_price_change.toLocaleString()}
+                            <div style={{ color: '#007bff', fontWeight: 'bold' }}>{(item.current_price ?? 0).toLocaleString()} gp</div>
+                            <div style={{ fontSize: '0.8em', color: (item.today_price_change ?? 0) >= 0 ? 'green' : 'red' }}>
+                                {(item.today_price_change ?? 0) > 0 ? '+' : ''}{(item.today_price_change ?? 0).toLocaleString()}
                             </div>
                         </div>
                     </div>
