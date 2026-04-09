@@ -63,8 +63,8 @@ function App() {
 
             <div className="results" style={{ marginTop: '20px', textAlign: 'left' }}>
                 {results.map((item) => (
-                    <div key={item.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', background: 'white', padding: '15px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-                        <img src={item.icon} alt={item.name} style={{ marginRight: '20px', width: '40px', height: '40px' }} />
+                    <div key={item.id ?? 0} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px', background: 'white', padding: '15px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
+                        <img src={item.icon ?? ''} alt={item.name ?? ''} style={{ marginRight: '20px', width: '40px', height: '40px' }} />
                         <div style={{ flex: 1 }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
                                 <div style={{ fontWeight: 'bold', fontSize: '1.2em' }}>{item.name}</div>
