@@ -1,6 +1,7 @@
 package db
 
 import (
+	"regexp"
 	"strings"
 
 	"github.com/nutsdb/nutsdb"
@@ -72,14 +73,14 @@ func (s *Store) GetItem(name string) (*pb.Item, error) {
 	return &item, nil
 }
 
-func (s *Store) SearchItems(prefix string, limit int) ([]*pb.Item, error) {
+func (s *Store) SearchItems(query string, limit int) ([]*pb.Item, error) {
 	var items []*pb.Item
 	err := s.db.View(func(tx *nutsdb.Tx) error {
-		prefixBytes := []byte(strings.ToLower(prefix))
-		entries, err := tx.PrefixScan(BucketName, prefixBytes, 0, limit)
+		// Use substring regex so "whip" matches "Abyssal whip", "Dragon whip", etc.
+		reg := regexp.QuoteMeta(strings.ToLower(query))
+		entries, err := tx.PrefixSearchScan(BucketName, []byte{}, reg, 0, limit)
 		if err != nil {
-			// Treat bucket not found or similar as empty result
-			if strings.Contains(err.Error(), "bucket not found") || err == nutsdb.ErrBucketNotFound {
+			if err == nutsdb.ErrPrefixSearchScan || err == nutsdb.ErrBucketNotFound {
 				return nil
 			}
 			return err
